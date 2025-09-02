@@ -1,24 +1,28 @@
+# 修改日志：
+# 2025.08.29: pinhole和distortion数据集用于single image; Cross-view数据集用于Cross-view的相对定向； 原Cross-sensor的数据集，主要是自动驾驶平台，挑选出纯视觉部分数据来用即可
+
+
+# to do……
+# 添加稀疏视角图像的相机标定研究的数据集，3-8张影像，可以从PTZ相机开始
+
 # Benchmark for Learning-based Camera Calibration and Beyond
 
 As there is no public and unified benchmark in learning-based camera calibration, we contribute a dataset that can serve as a platform for generalization evaluations. In this dataset, the images and videos are captured by different cameras under diverse scenes, including simulation environments and real-world settings. Additionally, we provide the calibration ground truth, parameter label, and visual clues in this dataset based on different conditions. The directory structure of this benchmark is formed as follows.
 
 ```
 ├── Dataset
-|   ├── Pinhole
-|   ├── Distortion
-|   ├── Cross-view
-|   ├── Cross-sensor
+|   ├── Single-image:Pinhole and distortion
+|   ├── Cross-view: Relative orientation,homo transformation
+|   ├── Sparse-view: 3-8 images，e.g., PTZ camera imagery， to do……
+
 ```
 
 Please feel free to use the whole benchmark from [[Google Dirve](https://drive.google.com/file/d/1ffNClmeFqQ_poKvSvYqu_JsTnzp6T6Ps/view?usp=sharing)]. If you only interest in one type of the camera model, please refer to each download link as follows.
 
-## :circus_tent: Standard Pinhole Model [[Google Dirve](https://drive.google.com/file/d/11jNhxzx0WuQcrUlKzwGTf82DtH4viIoJ/view?usp=sharing)]
-
-### Brief Description
+## :1.1: Pinhole Model [[Google Dirve](https://drive.google.com/file/d/11jNhxzx0WuQcrUlKzwGTf82DtH4viIoJ/view?usp=sharing)]
 
 We collected 300 high-resolution images on the Internet, captured by popular digital cameras such as Canon, Fujifilm, Nikon, Olympus, Sigma, Sony, etc. For each image, we provide the specific focal length of its lens. We have included a diverse range of subjects, including landscapes, portraits, wildlife, architecture, etc. The range of focal length is from 4.5mm to 600mm, allowing users to explore the different effects that different lenses can have on an image.
 
-### Directory/Data Structure and Parsing
 The value of the focal length of each image can be obtained by splitting the last sub-string in the file name (e.g., ```file_name.split("_")```).
 
 ```
@@ -29,10 +33,7 @@ The value of the focal length of each image can be obtained by splitting the las
 |   |   ├── ......
 ```
 
-## :circus_tent: Distortion Camera Model [[Google Dirve](https://drive.google.com/file/d/1qBGvAPOnuiG28uLde4vWxRYFuVZbQrDv/view?usp=sharing)]
-
-
-### Brief Description
+## :1.2: Distortion Camera Model [[Google Dirve](https://drive.google.com/file/d/1qBGvAPOnuiG28uLde4vWxRYFuVZbQrDv/view?usp=sharing)]
 
 We created a comprehensive dataset for the distortion camera model, with a focus on wide-angle cameras. The dataset is comprised of three subcategories: (i) The first is a synthetic dataset, which was generated using the widely used polynomial model[1][2]. It contains both circular and rectangular structures, with 1,000 distortion-rectification image pairs. (ii) The second subcategory consists of data captured under real-world settings, derived from the raw calibration data for around 40 types of wide-angle cameras. For each calibration data, the intrinsics, extrinsics, and distortion coefficients are available. (iii) Finally, we exploit a car equipped with different cameras to capture video sequences. The scenes cover both indoor and outdoor environments, including daytime and nighttime footage.
 
@@ -89,15 +90,10 @@ For each folder of the 'Real_Sequence' subcategory, the equipment configuration 
 |   |   |   |   |   |   ├── jpg
 |   |   |   |   |   ├── ......
 ```
-
-### Camera Parameter Parsing for 'Real_Sequence' Subcategory
-
 We provide the calibrated intrinsic and extrinsic parameters of four cameras equipped in a car, which can be found in '.\camera\camera_x_x_x.json'. Especially for the extrinsic parameters, the 'position' denotes the 3D coordinates (XYZ) of each camera with respect to the origin, the point where the midpoint of the car's front axle is projected onto the ground. The X-axis points to the left side of the car, the Y-axis points to the direction of travel, and the Z-axis points upward from the ground. Moreover, the 'pose' represents the Euler angles of each camera, i.e., roll, pitch, and yaw.
 
 
-## :circus_tent: Cross-View Model [[Google Dirve](https://drive.google.com/file/d/16xUU3hAvRv6DnEZ126TI0zSKRZxNXy08/view?usp=sharing)]
-
-### Brief Description
+## :2: Cross-view Model [[Google Dirve](https://drive.google.com/file/d/16xUU3hAvRv6DnEZ126TI0zSKRZxNXy08/view?usp=sharing)]
 
 We selected 500 testing samples at random from each of the four representative datasets[3][4][5] to create a dataset for the cross-view model. It covers a range of scenarios: MS-COCO provides natural synthetic data, GoogleEarch contains aerial synthetic data, and GoogleMap offers multi-modal synthetic data. Parallax is not a factor in these three datasets, while CAHomo provides real-world data with non-planar scenes. To standardize the dataset, we converted all images to a unified format and recorded the matched points between two views. In MS-COCO, GoogleEarch, and GoogleMap, we used four vertices of the images as the matched points. In CAHomo, we identified six matched key points within the same plane.
 
@@ -129,10 +125,11 @@ We unified the format of all datasets as follows. In the label, we record the ma
 |   |   |   ├── label
 |   |   |   ├── visualization
 ```
+## :3: Sparse-view dataset, 3-8 images
 
-## :circus_tent: Cross-Sensor Model [[Google Dirve](https://drive.google.com/file/d/1DgPyUTqDwjl95Rs0XMNXBkzbCU4ocBtG/view?usp=sharing)]
+to do ……
 
-### Brief Description
+## :4: Auto-driving datasets [[Google Dirve](https://drive.google.com/file/d/1DgPyUTqDwjl95Rs0XMNXBkzbCU4ocBtG/view?usp=sharing)]
 
 We collected RGB and point cloud data from Apollo[6], DAIR-V2X[7], KITTI[8], KUCL[9], NuScenes[10], and ONCE[11]. Around 300 data pairs with calibration parameters are included in each category. The datasets are captured in different countries to provide enough variety. Each dataset has a different sensor setup, obtaining camera-LiDAR data with varying image resolution, LiDAR scan pattern, and camera-LiDAR relative location. The image resolution ranges from 2448x2048 to 1242x375, while the LiDAR sensors are from Velodyne and Hesai, with 16, 32, 40, 64, and 128 beams. They include not only normal surrounding multi-view images but also small baseline multi-view data. Additionally, we also added random disturbance of around 20 degrees rotation and 1.5 meters translation based on classical settings to simulate vibration and collision.
 
