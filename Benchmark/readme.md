@@ -14,6 +14,7 @@ As there is no public and unified benchmark in learning-based camera calibration
 |   ├── Single-image:Pinhole and distortion
 |   ├── Cross-view: Relative orientation,homo transformation
 |   ├── Sparse-view: 3-8 images，e.g., PTZ camera imagery， to do……
+|   ├── Auto-driving datasets：使用其中纯视觉数据，添加其在车载场景下的应用案例
 
 ```
 
@@ -209,3 +210,4 @@ Here is a detailed illustration of the dataset:
 [11] Jiageng Mao, Minzhe Niu, Chenhan Jiang, Hanxue Liang, Jingheng Chen, Xiaodan Liang, Yamin Li et al. "One million scenes for autonomous driving: Once dataset." arXiv preprint arXiv:2106.11037, 2021.
 
 ```
+
